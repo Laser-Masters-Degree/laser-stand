@@ -1,0 +1,11 @@
+#ifndef UTILS_CONSTANTS
+#define UTILS_CONSTANTS
+
+#define SYSTEM_CORE_CLOCK 16000000
+#define BAUD_RATE 19200
+#define REF_VOLTAGE 3.3
+#define MAX_ADC_VAL 4096
+#define TIM3_PSC 1600 - 1
+#define TIM3_ARR 10000 - 1
+
+#endif
