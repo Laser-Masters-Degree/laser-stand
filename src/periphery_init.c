@@ -37,6 +37,17 @@ void GPIO_init() {
   // Setting GPIO A pins to analog function mode
   GPIOA->MODER |= GPIO_MODER_MODE1;
   GPIOA->MODER |= GPIO_MODER_MODE2;
+  // Setting GPIO B pins to output mode
+  // Настроить пин PB3 как выход (Output)
+  GPIOB->MODER &= ~GPIO_MODER_MODER3; // Сбросить биты MODER для PB5
+  GPIOB->MODER |= GPIO_MODER_MODER3_0; // Установить режим Output (01)
+  // Настроить тип выхода как Push-Pull
+  GPIOB->OTYPER &= ~GPIO_OTYPER_OT3; // Push-Pull (0)
+  // Настроить скорость пина (Low speed)
+  GPIOB->OSPEEDR &= ~GPIO_OSPEEDER_OSPEEDR3; // Low speed (00)
+  // Отключить подтягивающие резисторы (No pull-up/pull-down)
+  GPIOB->PUPDR &= ~GPIO_PUPDR_PUPDR3; // No pull (00)
+
   // Setting GPIO B pins to alternate function mode
   GPIOB->MODER |= GPIO_MODER_MODE7_1;
   GPIOB->MODER |= GPIO_MODER_MODE6_1;
