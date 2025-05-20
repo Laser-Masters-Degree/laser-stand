@@ -46,3 +46,12 @@ void parseInputPackage(volatile inputPackage *inPack,
     break;
   }
 }
+
+uint32_t movingEverageFilter(uint32_t *data, uint8_t *counter, uint32_t *sum,
+                             uint32_t *value) {
+  *sum = *sum - *(data + *counter);
+  *(data + *counter) = *value;
+  *sum = *sum + *value;
+  *counter = (*counter + 1) % CYCLES;
+  return *sum / CYCLES;
+}

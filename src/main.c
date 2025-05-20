@@ -9,6 +9,8 @@ volatile execStatus exStat;
 volatile outputPackage outPkg;
 volatile inputPackage inPkg;
 
+static uint32_t filtered_sensor_data = 0;
+
 int main() {
   RCC_periphery_activate();
   // TIM3_init();
@@ -19,7 +21,13 @@ int main() {
   USART1_init();
   GPIO_init();
   ADC_init();
+
+  uint32_t diodeValues[CYCLES] = {0};
+  uint8_t diodeFilterCounter = 0;
+  uint32_t diodeFilterSum = 0;
   while (1) {
+    filtered_sensor_data = movingEverageFilter(
+        diodeValues, &diodeFilterCounter, &diodeFilterSum, &(adcData.ch1Val));
   }
   return 0;
 }
@@ -32,6 +40,6 @@ int main() {
 void USART1_IRQHandler() {
   if (USART1->SR & USART_SR_IDLE) {
     (void)USART1->DR;
-    parseInputPackage(&inPkg, &outPkg, adcData.ch1Val, adcData.ch2Val);
+    parseInputPackage(&inPkg, &outPkg, filtered_sensor_data, adcData.ch2Val);
   }
 }
